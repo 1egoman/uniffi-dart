@@ -188,7 +188,9 @@ impl<'a> DartWrapper<'a> {
         let asset_id_suffix = &self.config.asset_id(); // e.g., "uniffi:hello_world"
 
         quote! {
-            library $package_name;
+            // Named per crate, not per package: with more than one component the
+            // package name is shared, and two libraries cannot carry the same name.
+            library $(self.ci.namespace());
 
             $(type_helper_code) // Imports, Types and Type Helper
 
